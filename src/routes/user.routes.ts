@@ -6,11 +6,12 @@ import {
   getUsers,
   udpateUser,
 } from "../controllers/user.controller";
+import auth from "../middlewares/auth.middleware";
 
 const router = Router();
 
 // Create a new user
-router.post("/create-user", async (req: Request, res: Response) => {
+router.post("/register", async (req: Request, res: Response) => {
   try {
     await createUser(req, res);
   } catch (err: any) {
@@ -19,7 +20,7 @@ router.post("/create-user", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/user/:id", async (req: Request, res: Response) => {
+router.get("/login", async (req: Request, res: Response) => {
   try {
     await getUserById(req, res);
   } catch (err: any) {
@@ -29,7 +30,7 @@ router.get("/user/:id", async (req: Request, res: Response) => {
 });
 
 // get all users
-router.get("/list-all", async (req: Request, res: Response) => {
+router.get("/list-all", auth, async (req: Request, res: Response) => {
   try {
     await getUsers(req, res);
   } catch (err: any) {
@@ -39,7 +40,7 @@ router.get("/list-all", async (req: Request, res: Response) => {
 });
 
 // update the user
-router.patch("/update-user/:id", async (req: Request, res: Response) => {
+router.patch("/update-user/:id", auth, async (req: Request, res: Response) => {
   try {
     await udpateUser(req, res);
   } catch (err: any) {
@@ -49,7 +50,7 @@ router.patch("/update-user/:id", async (req: Request, res: Response) => {
 });
 
 // Delete the user
-router.delete("/delete-user/:id", async (req: Request, res: Response) => {
+router.delete("/delete-user/:id", auth, async (req: Request, res: Response) => {
   try {
     await deleteUser(req, res);
   } catch (err: any) {
