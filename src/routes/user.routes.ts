@@ -57,3 +57,5 @@ router.delete("/delete-user/:id", async (req: Request, res: Response) => {
     return;
   }
 });
+
+export default router;
