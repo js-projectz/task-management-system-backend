@@ -8,17 +8,12 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  username     String   @unique
-  email        String   @unique
-  passwordHash String
-  role         String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  tasks         Task[]         @relation("AssignedTasks")
-  activityLogs  ActivityLog[]
-  notifications Notification[]
+  id       Int       @id @default(autoincrement())
+  username String    @unique
+  email    String    @unique
+  password String
+  projects Project[]
+  tasks    Task[]
 }
 
 model Project {
@@ -29,8 +24,9 @@ model Project {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  tasks       Task[]
-  ActivityLog ActivityLog[]
+  tasks  Task[]
+  User   User?  @relation(fields: [userId], references: [id])
+  userId Int?
 }
 
 model Task {
@@ -44,32 +40,7 @@ model Task {
   createdBy   Int
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-
-  assignees    User[]        @relation("AssignedTasks")
-  Project      Project       @relation(fields: [projectId], references: [id])
-  activityLogs ActivityLog[]
-}
-
-model ActivityLog {
-  id          Int      @id @default(autoincrement())
-  userId      Int
-  taskId      Int?
-  projectId   Int?
-  action      String
-  description String?
-  timestamp   DateTime @default(now())
-
-  user    User     @relation(fields: [userId], references: [id])
-  task    Task?    @relation(fields: [taskId], references: [id])
-  project Project? @relation(fields: [projectId], references: [id])
-}
-
-model Notification {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  message   String
-  isRead    Boolean  @default(false)
-  createdAt DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id])
+  User        User?     @relation(fields: [userId], references: [id])
+  userId      Int?
+  Project     Project   @relation(fields: [projectId], references: [id])
 }
