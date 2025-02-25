@@ -4,6 +4,7 @@ import {
   deleteUser,
   getUserById,
   getUsers,
+  loginUser,
   udpateUser,
 } from "../controllers/user.controller";
 import auth from "../middlewares/auth.middleware";
@@ -22,7 +23,7 @@ router.post("/register", async (req: Request, res: Response) => {
 
 router.get("/login", async (req: Request, res: Response) => {
   try {
-    await getUserById(req, res);
+    await loginUser(req, res);
   } catch (err: any) {
     res.status(res.statusCode).json({ Message: err.message });
     return;
