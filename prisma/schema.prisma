@@ -12,8 +12,8 @@ model User {
   username String    @unique
   email    String    @unique
   password String
-  projects Project[]
-  tasks    Task[]
+  projects Project[] @relation("UserProjects")
+  tasks    Task[]    @relation("UserTasks")
 }
 
 model Project {
@@ -24,9 +24,8 @@ model Project {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  tasks  Task[]
-  User   User?  @relation(fields: [userId], references: [id])
-  userId Int?
+  user  User   @relation("UserProjects", fields: [createdBy], references: [id])
+  tasks Task[]
 }
 
 model Task {
@@ -40,7 +39,7 @@ model Task {
   createdBy   Int
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  User        User?     @relation(fields: [userId], references: [id])
-  userId      Int?
-  Project     Project   @relation(fields: [projectId], references: [id])
+
+  user    User    @relation("UserTasks", fields: [createdBy], references: [id])
+  project Project @relation(fields: [projectId], references: [id])
 }
