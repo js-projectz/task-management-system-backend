@@ -41,6 +41,17 @@ router.patch("/update-product/:id", async (req: Request, res: Response) => {
   }
 });
 
+// Get product by id
+router.get("/task/:id", async (req: Request, res: Response) => {
+  try {
+    await getProjectById(req, res);
+    return;
+  } catch (err: any) {
+    res.status(res.statusCode).json({ Message: err.message });
+    return;
+  }
+});
+
 // Delete the product
 router.delete("/delete-product/:id", async (req: Request, res: Response) => {
   try {

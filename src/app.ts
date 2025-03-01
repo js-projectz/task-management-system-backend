@@ -1,5 +1,6 @@
 import userRoutes from "./routes/user.routes";
 import productRoutes from "./routes/product.routes";
+import taskRoutes from "./routes/task.route";
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -25,6 +26,7 @@ app.use("/api/users", userRoutes);
 // After the login the user will be auth
 app.use(middleWare);
 app.use("/api/products", productRoutes);
+app.use("/api/tasks", taskRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${URL}`);
